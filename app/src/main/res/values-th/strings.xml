@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- basic -->
+    <string name="lang">ENG</string>
+    <string name="Back">กลับ</string>
+    <string name="ok">ตกลง</string>
+    <string name="cancel">ยกเลิก</string>
+    <string name="hr">ชม.</string>
+    <string name="minutes">นาที</string>
+    <string name="minute">นาที</string>
+    <string name="min">นาที</string>
+    <string name="yes">ใช่</string>
+    <string name="no">ไม่ใช่</string>
+    <string name="tap_your_id_card_below">แตะบัตรด้านล่าง</string>
+    <string name="rfid_error">บัตรนี้ยังไม่ได้ลงทะเบียนกับระบบ Time Sloths กรุณาติดต่อแผนกไอที</string>
+    <!-- available -->
+    <string name="available">ว่าง</string>
+    <string name="until_the_end_of_the_day">ตลอดวัน</string>
+    <string name="until">ถึง</string>
+    <string name="use_now">ขอใช้ห้อง</string>
+    <!-- available frame -->
+    <string name="reserve_now">จองใช้งาน</string>
+    <string name="start_time">เริ่มต้น</string>
+    <string name="end_time">สิ้นสุด</string>
+    <string name="subject">หัวข้อ</string>
+    <string name="organizer">ชื่อผู้ใช้</string>
+    <string name="add_reservation_successfully">สำเร็จ</string>
+    <string name="add_reservation_fail">ไม่สำเร็จ</string>
+    <string name="please_enter_subject">กรุณาใส่หัวข้อ</string>
+    <!-- busy -->
+    <string name="finishing_in">สิ้นสุดในอีก</string>
+    <string name="end">เลิก</string>
+    <string name="extend">เพิ่มเวลา</string>
+    <!-- busy - end frame -->
+    <string name="end_now">สิ้นสุดการใช้งาน</string>
+    <string name="end_now_detail">ท่านต้องการสิ้นสุดการ\nใช้งานห้องประชุมตอนนี้\nหรือไม่ ?</string>
+    <string name="cannot_end_current_reservation">ไม่สำเร็จ</string>
+    <string name="end_current_reservation">สำเร็จ</string>
+    <!-- busy - extend frame -->
+    <string name="extend_head">เพิ่มเวลา</string>
+    <string name="new_ending">เวลาสิ้นสุดใหม่</string>
+    <string name="extending">เพิ่มเวลา</string>
+    <string name="cannot_extend">ไม่สามารถเพิ่มเวลาได้ เนื่องจากมีการใช้ห้องประชุมต่อ</string>
+    <string name="cannot_extend_current_reservation">ไม่สำเร็จ</string>
+    <string name="extend_current_reservation">สำเร็จ</string>
+    <string name="cannot_extend_endday">ไม่สามารถเพิ่มเวลาได้</string>
+    <!-- occupied -->
+    <string name="check_in">เช็คอิน</string>
+    <string name="please_check_in_within">กรุณาเช็คอินภายใน</string>
+    <string name="check_in_successfully">เช็คอินสำเร็จ</string>
+    <string name="check_in_fail">เช็คอินไม่สำเร็จ</string>
+    <!-- occupied - cancel frame -->
+    <string name="cancel_now">ยกเลิกการประชุม</string>
+    <string name="cancel_now_detail">ท่านต้องการยกเลิกการประชุมหรือไม่ ?</string>
+    <string name="cancel_now_successfully">ยกเลิกการประชุมสำเร็จ</string>
+    <string name="cancel_now_fail">ยกเลิกการประชุมไม่สำเร็จ</string>
+    <!-- find room -->
+    <string name="next_available">เวลาว่างอีกที</string>
+    <string name="busy">ไม่ว่าง</string>
+    <string name="not_available_all_day">ไม่ว่างตลอดวัน</string>
+</resources>

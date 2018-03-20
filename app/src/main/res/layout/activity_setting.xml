@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    tools:context="com.example.obberertest.timesloth_sm10.SettingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/jaspal_logo_white"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="40dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:layout_marginLeft="350dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time Format"
+                android:textSize="60dp"
+                android:textStyle="bold"
+                android:textColor="@color/Black"/>
+            <Button
+                android:id="@+id/btn_timeformat_24"
+                android:layout_width="190dp"
+                android:layout_height="90dp"
+                android:text="24 Hr"
+                android:textSize="50dp"
+                android:layout_marginLeft="80dp"/>
+            <Button
+                android:id="@+id/btn_timeformat_12"
+                android:layout_width="190dp"
+                android:layout_height="90dp"
+                android:text="12 Hr"
+                android:textSize="50dp" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="340dp"
+            android:layout_marginLeft="350dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Refresh Rate"
+                android:textSize="60dp"
+                android:textStyle="bold"
+                android:textColor="@color/Black"/>
+            <Spinner
+                android:id="@+id/spinner_refresh_rate"
+                android:layout_width="200dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="430dp"
+                android:entries="@array/refresh_rate_arrays"
+                android:prompt="@string/refresh_rate_prompt" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/time_black_arrow"
+                android:layout_marginLeft="550dp"/>
+        </RelativeLayout>
+        <Button
+            android:id="@+id/btn_reboot"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginBottom="20dp"
+            android:text="REBOOT"
+            android:textColor="@color/Black"
+            android:textSize="40dp"/>
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            android:text="BACK"
+            android:textColor="@color/Black"
+            android:textSize="40dp"/>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="Connect_Background">#FFFFFF</color>
+    <color name="Connect_Room_Detail">#000000</color>
+    <color name="Connect_Setting_Text_Room">#DADADA</color>
+    <color name="Connect_Setting_Background_Serveraddress">#DADADA</color>
+    <color name="Connect_Setting_Edittext_Serveraddress">#000000</color>
+    <color name="Connect_setting_Text_Error">#ff0000</color>
+    <color name="Black">#000000</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Red">#FF0000</color>
+    <color name="Blue">#367EF4</color>
+    <color name="Default_btn">#D6D6D6</color>
+    <color name="Grey">#6e6e6e</color>
+    <color name="bar_room_not_open">#9b9b9b</color>
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- basic -->
+    <string name="lang">ภาษาไทย</string>
+    <string name="Back">Back</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="hr">Hr</string>
+    <string name="minutes">Minutes</string>
+    <string name="minute">Minute</string>
+    <string name="min">min</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="tap_your_id_card_below">Tap your ID card&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;below</string>
+    <string name="rfid_error">This card has not been registered to the Time Sloths system. Please contact IT department.</string>
+    <!-- available -->
+    <string name="available">Available</string>
+    <string name="until_the_end_of_the_day">Until the end of the day</string>
+    <string name="until">Until</string>
+    <string name="use_now">Use Now</string>
+    <!-- available frame -->
+    <string name="reserve_now">Reserve Now</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
+    <string name="subject">Subject</string>
+    <string name="organizer">Organizer</string>
+    <string name="add_reservation_successfully">Add reservation successfully</string>
+    <string name="add_reservation_fail">Add reservation fail</string>
+    <string name="please_enter_subject">Please enter subject</string>
+    <!-- busy -->
+    <string name="finishing_in">Finishing in</string>
+    <string name="end">END</string>
+    <string name="extend">EXTEND</string>
+    <!-- busy - end frame -->
+    <string name="end_now">End Now</string>
+    <string name="end_now_detail">End the current reservation and release this room for others use ?</string>
+    <string name="cannot_end_current_reservation">Cannot end current reservation</string>
+    <string name="end_current_reservation">Successfully!</string>
+    <!-- busy - extend frame -->
+    <string name="extend_head">Extend</string>
+    <string name="new_ending">New Ending</string>
+    <string name="extending">Extending</string>
+    <string name="cannot_extend">Cannot Extend due to next reservation</string>
+    <string name="cannot_extend_current_reservation">Cannot extend current reservation</string>
+    <string name="cannot_extend_endday">Cannot extend current reservation</string>
+    <string name="extend_current_reservation">Successfully!</string>
+    <!-- occupied -->
+    <string name="check_in">Check-in</string>
+    <string name="please_check_in_within">Please check in within</string>
+    <string name="check_in_successfully">Check in successfully</string>
+    <string name="check_in_fail">Check in fail</string>
+    <!-- occupied - cancel frame -->
+    <string name="cancel_now">Cancel Now</string>
+    <string name="cancel_now_detail">Cancel this reservation now ?</string>
+    <string name="cancel_now_successfully">Cancel this reservation successfully</string>
+    <string name="cancel_now_fail">Cancel this reservation fail</string>
+    <!-- find room -->
+    <string name="next_available">Next available</string>
+    <string name="busy">Busy</string>
+    <string name="not_available_all_day">Not available all day</string>
+</resources>

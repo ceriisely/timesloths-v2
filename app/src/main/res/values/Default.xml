@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="RoomName">
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginTop">70dp</item>
+        <item name="android:textSize">235dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <style name="RoomBg">
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:background">#000000</item>
+    </style>
+    <style name="RoomImage">
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:alpha">0.3</item>
+    </style>
+    <style name="ScheduleBar">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginBottom">25dp</item>
+    </style>
+    <style name="TimeBar">
+        <item name="android:layout_width">805dp</item>
+        <item name="android:layout_height">8dp</item>
+        <item name="android:layout_marginBottom">25dp</item>
+        <item name="android:background">#3AB4B4B4</item>
+        <item name="android:layout_marginStart">55dp</item>
+    </style>
+    <style name="TimeArrow">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginBottom">65dp</item>
+        <item name="android:layout_marginStart">46dp</item>
+    </style>
+    <style name="TimeSeparate">
+        <item name="android:layout_width">2dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#FFFFFF</item>
+    </style>
+    <style name="TimeClockBar">
+        <item name="android:layout_marginStart">50dp</item>
+    </style>
+    <style name="TimeClockValue">
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+    <style name="TimeClock">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginBottom">85dp</item>
+        <item name="android:layout_marginStart">30dp</item>
+    </style>
+    <style name="TimeClockRealTime">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <style name="CenterBar">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">300dp</item>
+    </style>
+    <style name="CenterTab">
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+    <style name="ButtonStatus">
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_marginEnd">30dp</item>
+        <item name="android:layout_marginTop">350dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="BoxTabID">
+
+    </style>
+</resources>

@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    tools:context="com.example.obberertest.timesloth_sm10.ModuleRebootFragment">
+
+    <RelativeLayout
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:padding="20dp"
+        android:background="@color/Grey">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm reboot ?"
+                android:textColor="@color/White"
+                android:textSize="30sp"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <Button
+                    android:id="@+id/btn_yes"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/btn_blank"
+                    android:text="YES"
+                    android:textSize="20sp"
+                    android:textColor="@color/White"/>
+                <Button
+                    android:id="@+id/btn_no"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="180dp"
+                    android:background="@drawable/btn_blank"
+                    android:text="NO"
+                    android:textSize="20sp"
+                    android:textColor="@color/White"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</FrameLayout>

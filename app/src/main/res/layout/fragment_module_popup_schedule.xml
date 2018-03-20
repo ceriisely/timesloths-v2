@@ -1,0 +1,34 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.obberertest.timesloth_sm10.ModulePopupScheduleFragment">
+
+    <LinearLayout
+        android:id="@+id/layout_popupbox"
+        android:layout_width="wrap_content"
+        android:layout_height="110dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/poppupbox"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:00 AM - 20:00 AM"
+            android:textColor="@color/White"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Helolololololololololololololoololololo"
+            android:textColor="@color/White"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+</FrameLayout>

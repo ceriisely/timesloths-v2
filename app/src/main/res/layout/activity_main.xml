@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Black"
+    tools:context="com.example.obberertest.timesloth_sm10.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/fragment_main_activity_container_rfid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/fragment_main_activity_container_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+    </FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true">
+            <Button
+                android:id="@+id/btn_find_all_room"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginEnd="45dp"
+                android:background="@drawable/findroom_eng" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginRight="50dp" >
+            <Button
+                android:id="@+id/btn_change_language"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:padding="5dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/btn_eng"
+                android:textColor="@color/White"/>
+            <Button
+                android:id="@+id/btn_setting"
+                android:layout_width="70dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/btn_setting"
+                android:alpha="0.6"
+                android:layout_marginLeft="20dp"/>
+            <Button
+                android:id="@+id/btn_about"
+                android:layout_width="43dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/logo_sloth_white"
+                android:alpha="0.6"
+                android:layout_marginLeft="15dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/fragment_main_activity_container_front"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_main_activity_container_all_room"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_main_activity_container_screen_saver"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_main_activity_container_popupbox"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_main_activity_container_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+    </FrameLayout>
+
+
+</android.support.constraint.ConstraintLayout>

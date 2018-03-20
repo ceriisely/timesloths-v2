@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:splitMotionEvents="false"
+    android:background="@color/White"
+    tools:context="com.example.obberertest.timesloth_sm10.AboutActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:text="Back"
+            android:textSize="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/Black"
+            android:background="#c7c7c7" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="www.obberer.com/timesloth"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="30dp"
+            android:textSize="24dp"
+            android:textColor="#2f8ff5"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="350dp"
+            android:background="@drawable/border">
+            <TextView
+                android:id="@+id/text_detail"
+                android:layout_width="800dp"
+                android:layout_height="220dp"
+                android:textSize="24dp"
+                android:textColor="@color/Black"
+                android:padding="7dp"
+                android:text="Licensed to Jaspal Company Limited\nVersion 1.0.0.1\nServer Address 192.168.100.1\nNode IP Address 192.168.100.51\n\nAll Right Reserved\nOpen Sources Licensing Here"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="470dp"
+            android:layout_height="65dp"
+            android:src="@drawable/logo_full"
+            android:layout_marginTop="230dp"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="585dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/jaspal_logo_black"
+            android:layout_marginTop="200dp"
+            android:layout_marginLeft="227dp"/>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

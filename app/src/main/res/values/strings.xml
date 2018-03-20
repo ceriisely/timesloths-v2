@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Timesloth_SM10</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="connect_room_up">Up</string>
+    <string name="connect_room_down">Down</string>
+    <string name="connect_error">Connection failed.</string>
+
+    <string name="refresh_rate_prompt">Choose a refresh rate</string>
+    <string name="wifi_ssid_prompt">Choose a WiFi</string>
+
+    <string-array name="refresh_rate_arrays">
+        <item>10s</item>
+        <item>20s</item>
+        <item>30s</item>
+        <item>40s</item>
+        <item>50s</item>
+        <item>60s</item>
+    </string-array>
+
+    <string-array name="wifi_ssid_arrays">
+        <item>10s</item>
+        <item>20s</item>
+        <item>30s</item>
+        <item>40s</item>
+        <item>50s</item>
+        <item>60s</item>
+    </string-array>
+</resources>
