@@ -2,25 +2,16 @@ package com.example.obberertest.timesloth_sm10;
 
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.net.Proxy;
-import java.util.Arrays;
-import java.util.List;
-
-import static android.content.Context.ACTIVITY_SERVICE;
 import static java.lang.Thread.sleep;
 
 
@@ -36,6 +27,7 @@ public class ModuleNetworkDiagFragment extends Fragment {
     private boolean isConnectedSiteData = false;
     public Thread main_thread;
     private Thread time_thread;
+    public boolean isConnectSite = true;
 
     public ModuleNetworkDiagFragment() {
         // Required empty public constructor
@@ -103,31 +95,61 @@ public class ModuleNetworkDiagFragment extends Fragment {
             }
             case 4  :   {
                 int count_time = 0;
+//                if (Connect_activity.Site_connect_fragment.isAdded()){
+//                    try {
+//                        Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commit();
+//                    } catch (IllegalStateException e) {
+//                        Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commitAllowingStateLoss();
+//                        Log.d(TAG, " | isConnectNetworkState " + e.getMessage());
+//                        SiteData.writeFile(Connect_activity, TAG + " | isConnectNetworkState " + e.getMessage());
+//                        return false;
+//                    }
+//                }
                 if (Connect_activity.Site_connect_fragment.isAdded()){
                     try {
                         Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commit();
                     } catch (IllegalStateException e) {
                         Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commitAllowingStateLoss();
+                        Log.d(TAG, " | isConnectNetworkState " + e.getMessage());
                         SiteData.writeFile(Connect_activity, TAG + " | isConnectNetworkState " + e.getMessage());
+                        return false;
+                    }
+                } else {
+                    try {
+                        Connect_activity.getFragmentManager().beginTransaction().add(R.id.fragment_container, Connect_activity.Site_connect_fragment).commit();
+                    } catch (IllegalStateException e) {
+                        //Connect_activity.getFragmentManager().beginTransaction().add(R.id.fragment_container, Connect_activity.Site_connect_fragment).commitAllowingStateLoss();
+                        Log.d(TAG, " | isConnectNetworkState " + e.getMessage());
+                        SiteData.writeFile(Connect_activity, TAG + " | isConnectNetworkState " + e.getMessage());
+                        return false;
                     }
                 }
-                try {
-                    Connect_activity.getFragmentManager().beginTransaction().add(R.id.fragment_container, Connect_activity.Site_connect_fragment).commit();
-                } catch (IllegalStateException e){
-                    Connect_activity.getFragmentManager().beginTransaction().add(R.id.fragment_container, Connect_activity.Site_connect_fragment).commitAllowingStateLoss();
-                    SiteData.writeFile(Connect_activity, TAG + " | isConnectNetworkState " + e.getMessage());
-                }
-                while (true){
-                    if (count_time > 10){
+                while (isConnectSite){
+                    if (count_time > 60){
                         Log.d(TAG, TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(false)));
                         //SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(false)));
                         return false;
                     }
-                    if(Connect_activity.Site_connect_fragment.Finish){
-                        break;
-                    }
+//                    if(Connect_activity.Site_connect_fragment.Finish){
+//                        break;
+//                    }
                     try {
                         sleep(1000);
+                        try {
+                            if (Connect_activity.Site_connect_fragment.isAdded()) {
+                                getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commit();
+                            }
+                            if (Connect_activity.Room_connect_fragment.isAdded()) {
+                                getFragmentManager().beginTransaction().remove(Connect_activity.Room_connect_fragment).commit();
+                            }
+                        } catch (IllegalStateException e) {
+                            if (Connect_activity.Site_connect_fragment.isAdded()) {
+                                getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commitAllowingStateLoss();
+                            }
+                            if (Connect_activity.Room_connect_fragment.isAdded()) {
+                                getFragmentManager().beginTransaction().remove(Connect_activity.Room_connect_fragment).commitAllowingStateLoss();
+                            }
+                        }
                         count_time++;
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -137,30 +159,30 @@ public class ModuleNetworkDiagFragment extends Fragment {
                         return false;
                     }
                 }
-                count_time = 0;
-                Connect_activity.Room_connect_fragment.new FeedAsynTask().execute();
-                while (true){
-                    if (count_time > 10){
-                        Log.d(TAG, TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(false)));
-                        //SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(false)));
-                        return false;
-                    }
-                    if(Connect_activity.Room_connect_fragment.Finish && !Connect_activity.isConnectNetworkAll){
-                        Log.d(TAG, TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(true)));
-                        //SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(true)));
-                        return true;
-                    }
-                    try {
-                        sleep(1000);
-                        count_time++;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + e.getMessage());
-                        Log.d(TAG, TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(false)));
-                        SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(false)));
-                        return false;
-                    }
-                }
+//                count_time = 0;
+//                Connect_activity.Room_connect_fragment.new FeedAsynTask().execute();
+//                while (true){
+//                    if (count_time > 10){
+//                        Log.d(TAG, TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(false)));
+//                        //SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(false)));
+//                        return false;
+//                    }
+//                    if(Connect_activity.Room_connect_fragment.Finish && !Connect_activity.isConnectNetworkAll){
+//                        Log.d(TAG, TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(true)));
+//                        //SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(true)));
+//                        return true;
+//                    }
+//                    try {
+//                        sleep(1000);
+//                        count_time++;
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                        SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + e.getMessage());
+//                        Log.d(TAG, TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(false)));
+//                        SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("private", "boolean", "isConnectNetworkState") + " - " + TAG_MODIFIED.tagReturn("boolean", String.valueOf(false)));
+//                        return false;
+//                    }
+//                }
             }
             case 5  :   {
                 Connect_activity.isConnectNetworkAll = true;
@@ -352,7 +374,7 @@ public class ModuleNetworkDiagFragment extends Fragment {
                 return;
             }
         }
-        if (_layout != null){
+        if (isAdded() && _layout != null){
             _layout.setBackground(getResources().getDrawable(R.drawable.network_diag_box_success));
         }
     }
@@ -420,5 +442,11 @@ public class ModuleNetworkDiagFragment extends Fragment {
         super.onPause();
         Log.d(TAG, TAG_MODIFIED.tagMethod("public", "void", "onPause"));
         SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("public", "void", "onPause"));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+        super.onSaveInstanceState(outState);
     }
 }

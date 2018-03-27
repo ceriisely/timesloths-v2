@@ -2,18 +2,16 @@ package com.example.obberertest.timesloth_sm10;
 
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.TextView;
 
 import com.squareup.okhttp.OkHttpClient;
 
@@ -110,9 +108,9 @@ public class RoomConnectFragment extends Fragment {
             SiteData.playSound(Connect_activity, "ok");
             //Log.d(TAG, TAG_MODIFIED.tagOnClick("btn_connect_setting_ipconfig", "Button"));
             //SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagOnClick("btn_connect_setting_ipconfig", "Button"));
-            //Intent intent = new Intent(Connect_activity, NetworkSettingActivity.class);
-            //startActivity(intent);
-            startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+            Intent intent = new Intent(Connect_activity, NetworkSettingActivity.class);
+            startActivity(intent);
+            //startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
             Connect_activity.onDestroy();
             //startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
         });
@@ -174,12 +172,15 @@ public class RoomConnectFragment extends Fragment {
                     }
                     Finish = true;
                     isConnected = true;
+                    Connect_activity.Network_diag_fragment.isConnectSite = false;
                 } catch (JSONException e) {
                     e.printStackTrace();
                     SiteData.writeFile(Connect_activity, TAG + " | FeedAsynTask onPostExecute " + e.getMessage());
                 }
                 //Connect_main.new FeedAsynTask().execute();
             }
+
+            //Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Room_connect_fragment).commit();
         }
     }
 
@@ -196,4 +197,9 @@ public class RoomConnectFragment extends Fragment {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //getFragmentManager().beginTransaction().remove(RoomConnectFragment.this).commit();
+    }
 }

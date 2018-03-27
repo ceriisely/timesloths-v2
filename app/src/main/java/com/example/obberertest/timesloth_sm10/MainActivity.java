@@ -14,29 +14,18 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.StrictMode;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-
-import android.support.v4.content.WakefulBroadcastReceiver;
 
 public class MainActivity extends Activity {
 
@@ -68,6 +57,7 @@ public class MainActivity extends Activity {
     private static PowerManager.WakeLock sleepLock;
     ModuleRebootFragment module_reboot_fragment;
     ModuleReadRFIDFragment module_read_rfid_fragment;
+    ModuleConnectionFailFragment module_connection_fail_fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +88,16 @@ public class MainActivity extends Activity {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
+
+
         module_loader_fragment = new ModuleLoaderFragment(Context);
         fragmentTransaction.add(R.id.fragment_main_activity_container_loader, module_loader_fragment, "TAG");
 
         module_frame_alert_popup_fragment = new ModuleAlertPopupFragment(Context);
         fragmentTransaction.add(R.id.fragment_main_activity_container_loader, module_frame_alert_popup_fragment, "TAG");
+
+        module_connection_fail_fragment = new ModuleConnectionFailFragment();
+        fragmentTransaction.add(R.id.fragment_main_activity_container_loader, module_connection_fail_fragment, "TAG");
 
         module_setting_fragment = new ModuleSettingFragment(Context);
         //fragmentTransaction.add(R.id.fragment_main_activity_container_front, module_setting_fragment, "TAG");
@@ -218,7 +213,8 @@ public class MainActivity extends Activity {
                 SiteData.playSound(Context, "allroom");
                 //Log.d(TAG, TAG_MODIFIED.tagOnClick("btn_find_all_room", "Button"));
                 //SiteData.writeFile(Context, TAG + " | " + TAG_MODIFIED.tagOnClick("btn_find_all_room", "Button"));
-                manage_main_fragment.new FeedAsynTaskAllRoom().execute();
+                ModuleLoaderFragment.showLoader();
+                manage_main_fragment.new FeedAsynTaskAllRoom(true).execute();
             }
         });
 

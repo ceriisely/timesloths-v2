@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -86,31 +85,21 @@ public class ModuleConfigWiFiFragment extends Fragment {
 
     void bindView() {
         Switch sw_wifi = View_main.findViewById(R.id.switch_wifi);
-        if (sw_wifi.isChecked()) {
+        if (NetworkSettingActivity.isConnectedWifi(Networksetting_activity)) {
+            sw_wifi.setChecked(true);
             enableWifi();
             initIp();
             showConnectedWifi();
         } else {
-            disableWifi();
+            sw_wifi.setChecked(false);
         }
-        sw_wifi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if (checked) {
-                    enableWifi();
-                    initIp();
-                    showConnectedWifi();
-                } else {
-                    disableWifi();
-                }
-            }
-        });
-
-        Button btn_save = View_main.findViewById(R.id.btn_save);
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
+        sw_wifi.setOnCheckedChangeListener((compoundButton, checked) -> {
+            if (checked) {
+                enableWifi();
+                initIp();
+                showConnectedWifi();
+            } else {
+                disableWifi();
             }
         });
 
@@ -119,7 +108,11 @@ public class ModuleConfigWiFiFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SiteData.playSound(Networksetting_activity, "ok");
+                time_thread.interrupt();
+                time_thread = null;
                 Networksetting_activity.onDestroy();
+                //onDestroy();
+                getFragmentManager().beginTransaction().remove(ModuleConfigWiFiFragment.this).commit();
             }
         });
     }
@@ -146,6 +139,7 @@ public class ModuleConfigWiFiFragment extends Fragment {
     }
 
     private void showConnectedWifi(){
+        TextView text_ssid = View_main.findViewById(R.id.wifi_ssid_connected);
         time_thread = new Thread() {
             @Override
             public void run() {
@@ -160,9 +154,13 @@ public class ModuleConfigWiFiFragment extends Fragment {
                                 WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
                                 String name = wifiInfo.getSSID();
 
-                                TextView text_ssid = View_main.findViewById(R.id.wifi_ssid_connected);
-                                text_ssid.setVisibility(View.VISIBLE);
-                                text_ssid.setText("Connected: " + name.substring(1, name.length()-1));
+                                try {
+                                    text_ssid.setVisibility(View.VISIBLE);
+                                    text_ssid.setText("Connected: " + name.substring(1, name.length()-1));
+                                } catch (NullPointerException e) {
+                                    SiteData.stopThread(time_thread);
+                                    getFragmentManager().beginTransaction().remove(ModuleConfigWiFiFragment.this).commit();
+                                }
                             }
                         });
                     }
@@ -272,8 +270,8 @@ public class ModuleConfigWiFiFragment extends Fragment {
                                 //wifiMan.setWifiEnabled(false);
                             }
                         });
-                Log.d(TAG, results.get(position+1).SSID + " - " + results.get(position+1).capabilities);
-                if (results.get(position+1).capabilities.contains("PSK")) {
+                Log.d(TAG, results.get(position).SSID + " - " + results.get(position).capabilities);
+                if (results.get(position).capabilities.contains("PSK")) {
                     text.setText("  Password  :   ");
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -347,12 +345,6 @@ public class ModuleConfigWiFiFragment extends Fragment {
     void initIp(){
         wifii= (WifiManager) Networksetting_activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         assert wifii != null;
-        Switch sw_wifi = View_main.findViewById(R.id.switch_wifi);
-        if (Networksetting_activity.isConnectedWifi) {
-            sw_wifi.setChecked(true);
-        } else {
-            sw_wifi.setChecked(false);
-        }
         d=wifii.getDhcpInfo();
 
         s_dns1="DNS 1: "+intToIp(d.dns1);
@@ -378,6 +370,5 @@ public class ModuleConfigWiFiFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        SiteData.stopThread(time_thread);
     }
 }

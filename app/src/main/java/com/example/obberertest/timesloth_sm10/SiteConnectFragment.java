@@ -12,15 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.json.JSONException;
@@ -145,6 +138,7 @@ public class SiteConnectFragment extends Fragment {
             return result_getsiteconfigdata;
         }
 
+        @SuppressLint("ResourceType")
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
@@ -155,6 +149,9 @@ public class SiteConnectFragment extends Fragment {
                 ChangeSiteData(s);
                 Finish = true;
                 isConnected = true;
+                Connect_activity.Room_connect_fragment.new FeedAsynTask().execute();
+                //Connect_activity.getFragmentManager().beginTransaction().add(Connect_activity.getBaseContext().getResources().getInteger(R.id.fragment_container), Connect_activity.Room_connect_fragment).commit();
+                //Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commit();
                 //Connect_main.new FeedAsynTask().execute();
             }else {
                 new FeedAsynTask().execute();
@@ -218,4 +215,9 @@ public class SiteConnectFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //getFragmentManager().beginTransaction().remove(SiteConnectFragment.this).commit();
+    }
 }

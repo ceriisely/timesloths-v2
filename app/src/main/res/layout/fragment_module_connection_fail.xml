@@ -1,0 +1,35 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.obberertest.timesloth_sm10.ModuleConnectionFailFragment">
+
+    <RelativeLayout
+        android:id="@+id/popup_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/Black"
+            android:alpha="0">
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/popup_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:maxWidth="1100dp"
+            android:padding="15dp"
+            android:textColor="@color/White"
+            android:textSize="35dp"
+            android:textStyle="bold"
+            android:text="   Connection Failed   "
+            android:textAlignment="center"
+            android:background="@drawable/popup"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

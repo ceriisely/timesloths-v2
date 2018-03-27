@@ -66,7 +66,7 @@ public class NetworkSettingActivity extends Activity {
         bindView();
 
         checkTypeConnection();
-
+        //ModuleLoaderFragment.showLoader();
     }
 
     private void bindView() {
@@ -230,7 +230,7 @@ public class NetworkSettingActivity extends Activity {
     }
 
     boolean isConnectedEthernet(Context context){
-        Log.d(TAG, TAG_MODIFIED.tagMethod("public static", "boolean", "isConnectedFast"));
+        Log.d(TAG, TAG_MODIFIED.tagMethod("public static", "boolean", "isConnectedEthernet"));
         NetworkInfo info = NetworkSettingActivity.getNetworkInfo(context);
         return (info != null && info.isConnected() && NetworkSettingActivity.isTypeConnectEthernet(info.getType(),info.getSubtype()));
     }
@@ -258,6 +258,7 @@ public class NetworkSettingActivity extends Activity {
      */
     public static boolean isConnectionFast(int type, int subType){
         Log.d(TAG, TAG_MODIFIED.tagMethod("public static", "boolean", "isConnectionFast"));
+        Log.d(TAG, "type " + type + " subtype " + subType);
         if(type==ConnectivityManager.TYPE_WIFI){
             return true;
         } else if (type == ConnectivityManager.TYPE_ETHERNET) {

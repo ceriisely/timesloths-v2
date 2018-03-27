@@ -2,20 +2,13 @@ package com.example.obberertest.timesloth_sm10;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.FragmentTransaction;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.app.Fragment;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,22 +20,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import junit.framework.Assert;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 
 /**
@@ -100,7 +83,9 @@ public class ModuleDefaultMainFragment extends Fragment {
         roomname.setText(Main_activity.Main_Room.Name);
         /*Room Image Background*/
         ImageView background_room = View_main.findViewById(R.id.image_room);
-        new DownLoadImageTask(background_room).execute(Main_activity.Main_Room.Background_image_path);
+        String myfileurl = Main_activity.Main_Room.Background_image_path;
+        changeImageViewFromUrl(myfileurl, background_room, Main_activity.getApplicationContext());
+        //Glide.with(Main_activity.getApplicationContext()).load(myfileurl).into(background_room);
         /*Schedule Bar*/
         ArrayList<Integer> count_timestamp = new ArrayList<Integer>();
         for (int i=0;i<Main_activity.Main_Room.Slots.size();i++){
@@ -391,53 +376,57 @@ public class ModuleDefaultMainFragment extends Fragment {
 
     }
 
-    @SuppressLint("StaticFieldLeak")
-    public class DownLoadImageTask extends AsyncTask<String,Void,Bitmap> {
-
-        String feed = "DownLoadImageTask";
-
-        ImageView imageView;
-
-        DownLoadImageTask(ImageView imageView){
-            //Log.d(TAG, TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("", "", "DownLoadImageTask") + " - " + TAG_MODIFIED.tagArgument("ImageView", "imageView", ""));
-            //SiteData.writeFile(Main_activity, TAG + " | " + TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("", "", "DownLoadImageTask") + " - " + TAG_MODIFIED.tagArgument("ImageView", "imageView", ""));
-            this.imageView = imageView;
-        }
-
-        /*
-            doInBackground(Params... params)
-                Override this method to perform a computation on a background thread.
-         */
-        protected Bitmap doInBackground(String...urls){
-            //Log.d(TAG, TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "Bitmap", "doInBackground"));
-            //SiteData.writeFile(Main_activity, TAG + " | " + TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "Bitmap", "doInBackground"));
-
-            String urlOfImage = urls[0];
-            Bitmap logo = null;
-            try{
-                InputStream is = new URL(urlOfImage).openStream();
-                /*
-                    decodeStream(InputStream is)
-                        Decode an input stream into a bitmap.
-                 */
-                logo = BitmapFactory.decodeStream(is);
-            }catch(Exception e){ // Catch the download exception
-                e.printStackTrace();
-                SiteData.writeFile(Main_activity, TAG + " | DownLoadImageTask doInBackground " + e.getMessage());
-            }
-            return logo;
-        }
-
-        /*
-            onPostExecute(Result result)
-                Runs on the UI thread after doInBackground(Params...).
-         */
-        protected void onPostExecute(Bitmap result){
-            //Log.d(TAG, TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "void", "onPostExecute"));
-            //SiteData.writeFile(Main_activity, TAG + " | " + TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "void", "onPostExecute"));
-            imageView.setImageBitmap(result);
-        }
+    void changeImageViewFromUrl(String url, ImageView imageView, android.content.Context context){
+        Glide.with(context).load(url).into(imageView);
     }
+
+//    @SuppressLint("StaticFieldLeak")
+//    public class DownLoadImageTask extends AsyncTask<String,Void,Bitmap> {
+//
+//        String feed = "DownLoadImageTask";
+//
+//        ImageView imageView;
+//
+//        DownLoadImageTask(ImageView imageView){
+//            //Log.d(TAG, TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("", "", "DownLoadImageTask") + " - " + TAG_MODIFIED.tagArgument("ImageView", "imageView", ""));
+//            //SiteData.writeFile(Main_activity, TAG + " | " + TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("", "", "DownLoadImageTask") + " - " + TAG_MODIFIED.tagArgument("ImageView", "imageView", ""));
+//            this.imageView = imageView;
+//        }
+//
+//        /*
+//            doInBackground(Params... params)
+//                Override this method to perform a computation on a background thread.
+//         */
+//        protected Bitmap doInBackground(String...urls){
+//            //Log.d(TAG, TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "Bitmap", "doInBackground"));
+//            //SiteData.writeFile(Main_activity, TAG + " | " + TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "Bitmap", "doInBackground"));
+//
+//            String urlOfImage = urls[0];
+//            Bitmap logo = null;
+//            try{
+//                InputStream is = new URL(urlOfImage).openStream();
+//                /*
+//                    decodeStream(InputStream is)
+//                        Decode an input stream into a bitmap.
+//                 */
+//                logo = BitmapFactory.decodeStream(is);
+//            }catch(Exception e){ // Catch the download exception
+//                e.printStackTrace();
+//                SiteData.writeFile(Main_activity, TAG + " | DownLoadImageTask doInBackground " + e.getMessage());
+//            }
+//            return logo;
+//        }
+//
+//        /*
+//            onPostExecute(Result result)
+//                Runs on the UI thread after doInBackground(Params...).
+//         */
+//        protected void onPostExecute(Bitmap result){
+//            //Log.d(TAG, TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "void", "onPostExecute"));
+//            //SiteData.writeFile(Main_activity, TAG + " | " + TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "void", "onPostExecute"));
+//            //imageView.setImageBitmap(result);
+//        }
+//    }
 
     @SuppressLint("ResourceAsColor")
     void updateUIStatus(){

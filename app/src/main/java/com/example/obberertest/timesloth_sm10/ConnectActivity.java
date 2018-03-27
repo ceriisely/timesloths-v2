@@ -2,13 +2,10 @@ package com.example.obberertest.timesloth_sm10;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -23,11 +20,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import static java.lang.Thread.sleep;
 
 public class ConnectActivity extends Activity {
 
@@ -207,6 +201,9 @@ public class ConnectActivity extends Activity {
             for (int i = 0; i < backStackEntry; i++) {
                 getFragmentManager().popBackStackImmediate();
             }
+        }
+        if (Site_connect_fragment.isAdded()) {
+            getFragmentManager().beginTransaction().remove(Site_connect_fragment).commit();
         }
         if (Room_connect_fragment.isAdded()) {
             getFragmentManager().beginTransaction().remove(Room_connect_fragment).commit();

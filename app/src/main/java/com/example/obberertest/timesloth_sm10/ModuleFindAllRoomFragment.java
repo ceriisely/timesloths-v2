@@ -53,7 +53,7 @@ public class ModuleFindAllRoomFragment extends Fragment {
         changeTimeDate();
 
         ImageView background_room = View_main.findViewById(R.id.image_room);
-        Main_activity.module_default_main_fragment.new DownLoadImageTask(background_room).execute(Main_activity.Main_Room.Background_image_path);
+        Main_activity.module_default_main_fragment.changeImageViewFromUrl(Main_activity.Main_Room.Background_image_path, background_room, Main_activity.getApplicationContext());
 
         FragmentManager fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -83,6 +83,7 @@ public class ModuleFindAllRoomFragment extends Fragment {
         }
         time_count = 0;
         runThread();
+        ModuleLoaderFragment.hideLoader();
         return View_main;
     }
 

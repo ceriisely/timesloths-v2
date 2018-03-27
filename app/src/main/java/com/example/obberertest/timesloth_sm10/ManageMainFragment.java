@@ -44,6 +44,7 @@ public class ManageMainFragment extends Fragment {
     private Thread update_slot_thread;
     private Thread all_room_thread;
     private static int Connection_fail = 0;
+    private Thread connection_fail_thread;
 
     public ManageMainFragment() {
         //Log.d(TAG, TAG_MODIFIED.tagMethod("public", "", "ManageMainFragment"));
@@ -161,7 +162,7 @@ public class ManageMainFragment extends Fragment {
                             @Override
                             public void run() {
                                 if (Main_activity.manage_main_fragment.isAdded()) {
-                                    new FeedAsynTaskAllRoom().execute();
+                                    new FeedAsynTaskAllRoom(false).execute();
                                 }
                             }
                         });
@@ -174,6 +175,33 @@ public class ManageMainFragment extends Fragment {
             }
         };
         all_room_thread.start();
+
+        connection_fail_thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        Main_activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (Connection_fail > 10) {
+                                    ModuleConnectionFailFragment.showLoader();
+
+                                } else if (Connection_fail < 10){
+                                    ModuleConnectionFailFragment.hideLoader();
+                                }
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    SiteData.writeFile(Main_activity, TAG + " | all_room_thread " + e.getMessage());
+                    Connection_fail++;
+                }
+            }
+        };
+        connection_fail_thread.start();
     }
 
     private void updateRoomStatus(Room main_room){
@@ -201,7 +229,7 @@ public class ManageMainFragment extends Fragment {
                     } else if (timestamp >= schedule.Start_timestamp + 30) {
                         main_room.RoomStatus = 1;
                         main_room.RoomIdStatus = json.getInt("reservation_instance_id");
-                        if (!Main_activity.module_loader_fragment.Loader.isShown()){
+                        if (!Main_activity.module_loader_fragment.Loader.isShown() && main_room.Id == Main_activity.Main_Room.Id){
                             new FeedAsynTaskUpdateReservation().execute();
                         }
                         // delete schedule
@@ -380,6 +408,7 @@ public class ManageMainFragment extends Fragment {
 //                }
 
             }
+            Connection_fail = 0;
             //Main_activity.ScheduleValid = Main_activity.Main_Room.RoomSchedule;
             //Log.d("schedule info", String.valueOf(room_schedule.length()));
         } catch (JSONException e) {
@@ -432,7 +461,7 @@ public class ManageMainFragment extends Fragment {
             //SiteData.writeFile(Main_activity, TAG + " | " + TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "String", "doInBackground"));
             OkHttpClient client = new OkHttpClient();
             String url = "http://" + Main_activity.Site_data.Server_address + Main_activity.Site_data.Path + "api/services.php?action=set&key=checkin_reservation&refnum=" + referenceNumber;
-            //Log.d("OkHttp url ChecedIn", url);
+            Log.d("OkHttp url ChecedIn", url);
             //SiteData.writeFile(Main_activity, TAG + " | " + "OkHttp url ChecedIn " + url);
             com.squareup.okhttp.Request request = new com.squareup.okhttp.Request.Builder().url(url).build();
             com.squareup.okhttp.Response response = null;
@@ -464,6 +493,7 @@ public class ManageMainFragment extends Fragment {
                         if (status) {
                             Main_activity.module_frame_alert_popup_fragment.Alert(getResources().getString(R.string.check_in_successfully));
                             new FeedAsynTask_getRoomInfoByRoomID().execute();
+                            Connection_fail = 0;
                         } else {
                             Main_activity.module_frame_alert_popup_fragment.Alert(getResources().getString(R.string.check_in_fail));
                         }
@@ -564,11 +594,13 @@ public class ManageMainFragment extends Fragment {
                 Main_activity.module_loader_fragment.hideLoader();
                 switch (Main_activity.Main_Room.RoomStatus){
                     case 0:{ //available
+                        Connection_fail = 0;
                         Main_activity.getFragmentManager().beginTransaction().add(R.id.fragment_main_activity_container_back, Main_activity.module_frame_use_now_fragment, "TAG").commitAllowingStateLoss();
                         //Main_activity.module_frame_use_now_fragment.showFrame();
                         break;
                     }
                     case 1:{ //occupied
+                        Connection_fail = 0;
                         new FeedAsynTaskCheckedIn().execute();
                         break;
                     }
@@ -708,6 +740,7 @@ public class ManageMainFragment extends Fragment {
                                 ModuleAlertPopupFragment.Alert(getResources().getString(R.string.cannot_extend_current_reservation));
                             }
                         }
+                        Connection_fail = 0;
                     } catch (JSONException e) {
                         e.printStackTrace();
                         SiteData.writeFile(Main_activity, TAG + " | FeedAsynTaskUpdateReservation onPostExecute " + e.getMessage());
@@ -830,6 +863,7 @@ public class ManageMainFragment extends Fragment {
                         } else {
                             Main_activity.module_frame_alert_popup_fragment.Alert(getResources().getString(R.string.cancel_now_fail));
                         }
+                        Connection_fail = 0;
                     } catch (JSONException e) {
                         e.printStackTrace();
                         SiteData.writeFile(Main_activity, TAG + " | FeedAsynTaskDeleteReservation onPostExecute " + e.getMessage());
@@ -969,6 +1003,7 @@ public class ManageMainFragment extends Fragment {
                         } else {
                             Main_activity.module_frame_alert_popup_fragment.Alert(getResources().getString(R.string.add_reservation_fail));
                         }
+                        Connection_fail = 0;
                     } catch (JSONException e) {
                         e.printStackTrace();
                         SiteData.writeFile(Main_activity, TAG + " | FeedAsynTaskAddReservation onPostExecute " + e.getMessage());
@@ -989,11 +1024,16 @@ public class ManageMainFragment extends Fragment {
     class FeedAsynTaskAllRoom extends AsyncTask<String, Void, String> {
 
         String feed = "FeedAsynTaskAllRoom";
+        Boolean findAllRoom = false;
+
+        FeedAsynTaskAllRoom(Boolean value){
+            this.findAllRoom = value;
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            ModuleLoaderFragment.showLoader();
+            //ModuleLoaderFragment.showLoader();
             //Log.d(TAG, TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "void", "onPreExecute"));
             //SiteData.writeFile(Main_activity, TAG + " | " + TAG_MODIFIED.tagFeed(feed) + " - " + TAG_MODIFIED.tagMethod("protected", "void", "onPreExecute"));
         }
@@ -1046,19 +1086,22 @@ public class ManageMainFragment extends Fragment {
                             }
                         }
                     }
+                    Connection_fail = 0;
                 } catch (JSONException e) {
                     e.printStackTrace();
                     SiteData.writeFile(Main_activity, TAG + " | FeedAsynTaskAllRoom onPostExecute " + e.getMessage());
                     Connection_fail++;
                 }
             }
-            try {
-                getFragmentManager().beginTransaction().add(R.id.fragment_main_activity_container_all_room, Main_activity.module_find_all_room_fragment, "TAG").commit();
-            } catch (IllegalStateException e){
-                getFragmentManager().beginTransaction().add(R.id.fragment_main_activity_container_all_room, Main_activity.module_find_all_room_fragment, "TAG").commitAllowingStateLoss();
-                SiteData.writeFile(Main_activity, TAG + " | " + TAG_MODIFIED.tagOnClick("btn_find_all_room", "Button") + " - " + e.getMessage());
+            if (this.findAllRoom) {
+                try {
+                    getFragmentManager().beginTransaction().add(R.id.fragment_main_activity_container_all_room, Main_activity.module_find_all_room_fragment, "TAG").commit();
+                } catch (IllegalStateException e) {
+                    getFragmentManager().beginTransaction().add(R.id.fragment_main_activity_container_all_room, Main_activity.module_find_all_room_fragment, "TAG").commitAllowingStateLoss();
+                    SiteData.writeFile(Main_activity, TAG + " | " + TAG_MODIFIED.tagOnClick("btn_find_all_room", "Button") + " - " + e.getMessage());
+                }
             }
-            ModuleLoaderFragment.hideLoader();
+            //ModuleLoaderFragment.hideLoader();
         }
     }
 
@@ -1168,5 +1211,6 @@ public class ManageMainFragment extends Fragment {
         SiteData.stopThread(refresh_thread);
         SiteData.stopThread(update_slot_thread);
         SiteData.stopThread(all_room_thread);
+        SiteData.stopThread(connection_fail_thread);
     }
 }

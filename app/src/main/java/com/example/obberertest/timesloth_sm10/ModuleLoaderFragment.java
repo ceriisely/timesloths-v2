@@ -2,15 +2,12 @@ package com.example.obberertest.timesloth_sm10;
 
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
-import java.util.Arrays;
 
 
 /**
@@ -22,7 +19,7 @@ public class ModuleLoaderFragment extends Fragment {
     private NetworkSettingActivity NetworkSetting_activity;
 
     MainActivity Main_activity;
-    private static View View_main;
+    static View View_main;
     ProgressBar Loader;
 
     public ModuleLoaderFragment() {

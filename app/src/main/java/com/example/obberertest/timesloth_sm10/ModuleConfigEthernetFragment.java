@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
@@ -129,12 +131,11 @@ public class ModuleConfigEthernetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SiteData.playSound(NetworkSetting_activity, "ok");
-                //if (radio_manually.isChecked()) {
-                    ModuleLoaderFragment.showLoader();
-                    setConfigEthernet();
-                    ModuleLoaderFragment.hideLoader();
-                    ModuleAlertPopupFragment.Alert(NetworkSetting_activity, "Save!!!!!!!");
-                //}
+                if (radio_manually.isChecked()) {
+                    setConfigEthernetStatic();
+                } else if (radio_dhcp.isChecked()){
+                    setConfigEthernetDhcp();
+                }
             }
         });
 
@@ -148,16 +149,66 @@ public class ModuleConfigEthernetFragment extends Fragment {
         });
     }
 
-    private void setConfigEthernet() {
+    private void setConfigEthernetDhcp() {
+        ModuleLoaderFragment.showLoader();
+        try {
+            Process process = Runtime.getRuntime().exec("su");
+            DataOutputStream os = new DataOutputStream(process.getOutputStream());
+            String command;
+//            String command = "netcfg eth0 down" + "\n";
+//            Log.e("command",command);
+//            os.writeBytes(command);
+//            os.flush();
+//            command = "netcfg eth0 up" + "\n";
+//            Log.e("command",command);
+//            os.writeBytes(command);
+//            os.flush();
+            command = "netcfg eth0 dhcp" + "\n";
+            Log.e("command",command);
+            os.writeBytes(command);
+            os.flush();
+            command = "setprop init.svc.dhcpcd_eth0 " + "running" + "\n";
+            Log.e("command",command);
+            os.writeBytes(command);
+            os.flush();
+            os.writeBytes("exit\n");
+            os.flush();
+            process.waitFor();
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+            ModuleAlertPopupFragment.Alert(NetworkSetting_activity, "Something wrong!!!!!!!");
+            ModuleLoaderFragment.hideLoader();
+            return;
+        }
+        //ModuleLoaderFragment.showLoader();
+        new CountDownTimer(5000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+            }
+            public void onFinish() {
+                ModuleAlertPopupFragment.Alert(NetworkSetting_activity, "Save!!!!!!!");
+                ModuleLoaderFragment.hideLoader();
+                //mTextField.setText("done!");
+            }
+        }.start();
+    }
+
+    private void setConfigEthernetStatic() {
         Log.d(TAG, "getIpAddress " + getIpAddress());
         Log.d(TAG, "getSubnetmask " + getSubnetmask());
         Log.d(TAG, "getGateway " + getGateway());
         Log.d(TAG, "getDNS1 " + getDNS1());
         Log.d(TAG, "getDNS2 " + getDNS2());
+        ModuleLoaderFragment.showLoader();
         try {
             Process process = Runtime.getRuntime().exec("su");
             DataOutputStream os = new DataOutputStream(process.getOutputStream());
-            String command = "ifconfig eth0 " + getIpAddress() + " netmask " + getSubnetmask() + "\n";
+            String command;
+            command = "setprop init.svc.dhcpcd_eth0 " + "stopped" + "\n";
+            Log.e("command",command);
+            os.writeBytes(command);
+            os.flush();
+            command = "ifconfig eth0 " + getIpAddress() + " netmask " + getSubnetmask() + "\n";
             Log.e("command",command);
             os.writeBytes(command);
             os.flush();
@@ -178,14 +229,50 @@ public class ModuleConfigEthernetFragment extends Fragment {
             process.waitFor();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
+            ModuleAlertPopupFragment.Alert(NetworkSetting_activity, "Something wrong!!!!!!!");
+            ModuleLoaderFragment.hideLoader();
+            return;
         }
+
+        new CountDownTimer(5000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+            }
+            public void onFinish() {
+                ModuleAlertPopupFragment.Alert(NetworkSetting_activity, "Save!!!!!!!");
+                ModuleLoaderFragment.hideLoader();
+                //mTextField.setText("done!");
+            }
+        }.start();
     }
 
     private void initConfig() {
         Log.d(TAG, TAG_MODIFIED.tagMethod("private", "void", "initConfig"));
         //SiteData.writeFile(NetworkSetting_activity, TAG + " | " + TAG_MODIFIED.tagMethod("private", "void", "initConfig"));
         if(NetworkSetting_activity.isConnected){
-            if (NetworkSetting_activity.isConnectedMobile){
+
+            Boolean dhcp = false;
+            Process process = null;
+            try {
+                process = Runtime.getRuntime().exec("getprop init.svc.dhcpcd_eth0");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+            try {
+                String readLine = bufferedReader.readLine();
+                Log.d(TAG, "init.svc.dhcpcd_eth0 " + readLine);
+                if (readLine.equals("stopped")) {
+                    dhcp = false;
+                } else if (readLine.equals("running")) {
+                    dhcp = true;
+                }
+            } catch (NullPointerException | IOException e) {
+                e.printStackTrace();
+            }
+
+            if (dhcp){
                 radio_dhcp.setChecked(true);
             }else {
                 radio_manually.setChecked(true);
@@ -208,6 +295,7 @@ public class ModuleConfigEthernetFragment extends Fragment {
         initViewGateway(Gateway);
         initViewDNS1(DNS1);
         initViewDNS2(DNS2);
+
     }
 
     private void initViewIpAddress(String ipAddress) {
@@ -234,6 +322,9 @@ public class ModuleConfigEthernetFragment extends Fragment {
         editText_2.setText(ip[1]);
         editText_3.setText(ip[2]);
         editText_4.setText(ip[3]);
+
+        TextView text = View_main.findViewById(R.id.dhcp_ipaddress);
+        text.setText(ipAddress);
     }
 
     private void initViewSubnet(String subnetmask) {
@@ -260,6 +351,9 @@ public class ModuleConfigEthernetFragment extends Fragment {
         editText_2.setText(ip[1]);
         editText_3.setText(ip[2]);
         editText_4.setText(ip[3]);
+
+        TextView text = View_main.findViewById(R.id.dhcp_subnet_mask);
+        text.setText(subnetmask);
     }
 
     private void initViewGateway(String gateway) {
@@ -286,6 +380,9 @@ public class ModuleConfigEthernetFragment extends Fragment {
         editText_2.setText(ip[1]);
         editText_3.setText(ip[2]);
         editText_4.setText(ip[3]);
+
+        TextView text = View_main.findViewById(R.id.dhcp_gateway);
+        text.setText(gateway);
     }
 
     private void initViewDNS1(String dns1) {
@@ -312,6 +409,9 @@ public class ModuleConfigEthernetFragment extends Fragment {
         editText_2.setText(ip[1]);
         editText_3.setText(ip[2]);
         editText_4.setText(ip[3]);
+
+        TextView text = View_main.findViewById(R.id.dhcp_dns_1);
+        text.setText(dns1);
     }
 
     private void initViewDNS2(String dns2) {
@@ -338,6 +438,9 @@ public class ModuleConfigEthernetFragment extends Fragment {
         editText_2.setText(ip[1]);
         editText_3.setText(ip[2]);
         editText_4.setText(ip[3]);
+
+        TextView text = View_main.findViewById(R.id.dhcp_dns_2);
+        text.setText(dns2);
     }
 
     String getDeviceGateway() {
