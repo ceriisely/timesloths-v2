@@ -84,6 +84,7 @@ public class ManageMainFragment extends Fragment {
                             @SuppressLint("LongLogTag")
                             @Override
                             public void run() {
+                                //Log.d(TAG, String.valueOf(Main_activity.Site_data.TimeRefresh));
                                 if (Main_activity.manage_main_fragment.isAdded()) {
                                     new FeedAsynTask_getRoomInfoByRoomID().execute();
                                 }
@@ -307,13 +308,13 @@ public class ManageMainFragment extends Fragment {
         try {
             JSONObject json = new JSONObject(string_json);
             JSONArray room_schedule = json.getJSONArray("RoomSchedule");
-            Log.d("room_schedule.length()", String.valueOf(room_schedule.length()));
+            //Log.d("room_schedule.length()", String.valueOf(room_schedule.length()));
             if (room_schedule.length() == 0) {
 
             }
             for (int i=0;i<room_schedule.length();i++){
                 JSONObject schedule = room_schedule.getJSONObject(i);
-                Log.d("size Main_activity.Main_Room.RoomSchedule.size()", String.valueOf(Main_activity.Main_Room.RoomSchedule.size()));
+                //Log.d("size Main_activity.Main_Room.RoomSchedule.size()", String.valueOf(Main_activity.Main_Room.RoomSchedule.size()));
                 int size = Main_activity.Main_Room.RoomSchedule.size();
                 if(size == 0){
                     String start_time = (schedule.getString("start_date_time")) + ":00";
@@ -330,7 +331,7 @@ public class ManageMainFragment extends Fragment {
                     Collections.sort(Main_activity.Main_Room.RoomSchedule, Schedule.StartTimestampCompare);
                 }else {
                     for (int j = 0; j < size; j++) {
-                        Log.d("Main_activity.Main_Room.RoomSchedule.size()", String.valueOf(Main_activity.Main_Room.RoomSchedule.size()));
+                        //Log.d("Main_activity.Main_Room.RoomSchedule.size()", String.valueOf(Main_activity.Main_Room.RoomSchedule.size()));
                         //Log.d("getRoomInfoByRoomID", String.valueOf(j));
                         JSONObject main_schedule = new JSONObject(Main_activity.Main_Room.RoomSchedule.get(j).Schedule_detail);
                         if (Objects.equals(schedule.getString("reference_number"), main_schedule.getString("reference_number"))) {
@@ -370,13 +371,13 @@ public class ManageMainFragment extends Fragment {
                 }
                 for (int j=0;j<room_schedule.length();j++){
                     JSONObject schedule = room_schedule.getJSONObject(j);
-                    Log.d(main_schedule.getString("reference_number"), schedule.getString("reference_number"));
+                    //Log.d(main_schedule.getString("reference_number"), schedule.getString("reference_number"));
                     if (Objects.equals(main_schedule.getString("reference_number"), schedule.getString("reference_number"))){
                         break;
                     }
                     if (j == room_schedule.length() - 1){
                         indexSchedule.add(i);
-                        Log.d("add indexSchedule", String.valueOf(i));
+                        //Log.d("add indexSchedule", String.valueOf(i));
                     }
                 }
             }
@@ -1115,7 +1116,7 @@ public class ManageMainFragment extends Fragment {
             //Log.d("room_schedule.length()", String.valueOf(room_schedule.length()));
             for (int i=0;i<room_schedule.length();i++){
                 JSONObject schedule = room_schedule.getJSONObject(i);
-                Log.d("size Main_activity.Main_Room.RoomSchedule.size()", String.valueOf(main_room.RoomSchedule.size()));
+                //Log.d("size Main_activity.Main_Room.RoomSchedule.size()", String.valueOf(main_room.RoomSchedule.size()));
                 int size = main_room.RoomSchedule.size();
                 if(size == 0){
                     String start_time = (schedule.getString("start_date_time")) + ":00";
@@ -1124,7 +1125,7 @@ public class ManageMainFragment extends Fragment {
                     Collections.sort(main_room.RoomSchedule, Schedule.StartTimestampCompare);
                 }else {
                     for (int j = 0; j < size; j++) {
-                        Log.d("Main_activity.Main_Room.RoomSchedule.size()", String.valueOf(main_room.RoomSchedule.size()));
+                        //Log.d("Main_activity.Main_Room.RoomSchedule.size()", String.valueOf(main_room.RoomSchedule.size()));
                         //Log.d("getRoomInfoByRoomID", String.valueOf(j));
                         JSONObject main_schedule = new JSONObject(main_room.RoomSchedule.get(j).Schedule_detail);
                         if (Objects.equals(schedule.getString("reference_number"), main_schedule.getString("reference_number"))) {
@@ -1158,7 +1159,7 @@ public class ManageMainFragment extends Fragment {
                     }
                     if (j == room_schedule.length() - 1){
                         indexSchedule.add(i);
-                        //Log.d("add indexSchedule", String.valueOf(i));
+                        Log.d("add indexSchedule", String.valueOf(i));
                     }
                 }
             }

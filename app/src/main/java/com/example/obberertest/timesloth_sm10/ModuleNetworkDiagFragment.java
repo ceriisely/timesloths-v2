@@ -20,6 +20,7 @@ import static java.lang.Thread.sleep;
  */
 public class ModuleNetworkDiagFragment extends Fragment {
 
+    private static Thread network_thread;
     String TAG = "ModuleNetworkDiagFragment";
 
     private ConnectActivity Connect_activity;
@@ -28,6 +29,7 @@ public class ModuleNetworkDiagFragment extends Fragment {
     public Thread main_thread;
     private Thread time_thread;
     public boolean isConnectSite = true;
+    public static int StateNetwork = 0;
 
     public ModuleNetworkDiagFragment() {
         // Required empty public constructor
@@ -59,6 +61,7 @@ public class ModuleNetworkDiagFragment extends Fragment {
         //SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("public", "View", "onCreateView"));
         View_main = inflater.inflate(R.layout.fragment_module_network_diag, container, false);
         bindView();
+        startConnectNetwork();
         return View_main;
     }
 
@@ -95,31 +98,30 @@ public class ModuleNetworkDiagFragment extends Fragment {
             }
             case 4  :   {
                 int count_time = 0;
-//                if (Connect_activity.Site_connect_fragment.isAdded()){
-//                    try {
-//                        Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commit();
-//                    } catch (IllegalStateException e) {
-//                        Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commitAllowingStateLoss();
-//                        Log.d(TAG, " | isConnectNetworkState " + e.getMessage());
-//                        SiteData.writeFile(Connect_activity, TAG + " | isConnectNetworkState " + e.getMessage());
-//                        return false;
-//                    }
-//                }
                 if (Connect_activity.Site_connect_fragment.isAdded()){
+
                     try {
+                        Log.d(TAG, " | isConnectNetworkState remove ");
                         Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commit();
                     } catch (IllegalStateException e) {
-                        Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commitAllowingStateLoss();
-                        Log.d(TAG, " | isConnectNetworkState " + e.getMessage());
+                        //Connect_activity.getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commitAllowingStateLoss();
+                        Log.d(TAG, " | isConnectNetworkState remove " + e.getMessage());
+//                        if (e.getMessage().equals("Activity has been destroyed")){
+//                            Connect_activity.finish();
+//                        }
                         SiteData.writeFile(Connect_activity, TAG + " | isConnectNetworkState " + e.getMessage());
                         return false;
                     }
                 } else {
                     try {
+                        Log.d(TAG, " | isConnectNetworkState add ");
                         Connect_activity.getFragmentManager().beginTransaction().add(R.id.fragment_container, Connect_activity.Site_connect_fragment).commit();
                     } catch (IllegalStateException e) {
                         //Connect_activity.getFragmentManager().beginTransaction().add(R.id.fragment_container, Connect_activity.Site_connect_fragment).commitAllowingStateLoss();
-                        Log.d(TAG, " | isConnectNetworkState " + e.getMessage());
+                        Log.d(TAG, " | isConnectNetworkState add " + e.getMessage());
+                        if (e.getMessage().equals("Activity has been destroyed")){
+                            onDestroy();
+                        }
                         SiteData.writeFile(Connect_activity, TAG + " | isConnectNetworkState " + e.getMessage());
                         return false;
                     }
@@ -418,7 +420,6 @@ public class ModuleNetworkDiagFragment extends Fragment {
         super.onResume();
         Log.d(TAG, TAG_MODIFIED.tagMethod("public", "void", "onResume"));
         SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("public", "void", "onResume"));
-        startConnectNetwork();
     }
 
     @Override
@@ -433,6 +434,12 @@ public class ModuleNetworkDiagFragment extends Fragment {
         super.onDestroy();
         Log.d(TAG, TAG_MODIFIED.tagMethod("public", "void", "onDestroy"));
         SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("public", "void", "onDestroy"));
+        if (Connect_activity.Site_connect_fragment.isAdded()) {
+            getFragmentManager().beginTransaction().remove(Connect_activity.Site_connect_fragment).commit();
+        }
+        if (Connect_activity.Room_connect_fragment.isAdded()) {
+            getFragmentManager().beginTransaction().remove(Connect_activity.Room_connect_fragment).commit();
+        }
         SiteData.stopThread(main_thread);
         SiteData.stopThread(time_thread);
     }
@@ -442,11 +449,5 @@ public class ModuleNetworkDiagFragment extends Fragment {
         super.onPause();
         Log.d(TAG, TAG_MODIFIED.tagMethod("public", "void", "onPause"));
         SiteData.writeFile(Connect_activity, TAG + " | " + TAG_MODIFIED.tagMethod("public", "void", "onPause"));
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
-        super.onSaveInstanceState(outState);
     }
 }

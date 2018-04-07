@@ -331,6 +331,20 @@ public class MainActivity extends Activity {
                                     }
                                 }
                                 if (SiteData.getTimeDeivceTimestamp() == timestamp_restart){
+                                    if ((getFragmentManager().findFragmentById(R.id.fragment_main_activity_container_back) != null)) {
+                                        Button find_room = findViewById(R.id.btn_find_all_room);
+                                        find_room.setVisibility(View.INVISIBLE);
+                                        updateUi(false);
+                                    }
+                                    if (wakeLock.isHeld()) {
+                                        Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 15000);
+                                        wakeLock.release();
+                                        Log.d(TAG, "wakeLock release");
+                                    }
+                                    if (!sleepLock.isHeld()){
+                                        sleepLock.acquire();
+                                        Log.d(TAG, "sleepLock acquire");
+                                    }
                                     try {
                                         sleep(30000);
                                     } catch (InterruptedException e) {
@@ -412,12 +426,12 @@ public class MainActivity extends Activity {
         SiteData.writeFile(Context, TAG + " | " + TAG_MODIFIED.tagMethod("protected", "void", "onStop"));
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
-        super.onSaveInstanceState(outState);
-        //SiteData.writeFile(Context, TAG + " | " + TAG_MODIFIED.tagMethod("protected", "void", "onSaveInstanceState"));
-    }
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+//        super.onSaveInstanceState(outState);
+//        //SiteData.writeFile(Context, TAG + " | " + TAG_MODIFIED.tagMethod("protected", "void", "onSaveInstanceState"));
+//    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {

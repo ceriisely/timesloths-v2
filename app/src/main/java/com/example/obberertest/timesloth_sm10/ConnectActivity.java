@@ -62,7 +62,23 @@ public class ConnectActivity extends Activity {
         Settings.System.putInt(getContentResolver(),Settings.System.SCREEN_OFF_TIMEOUT, 3600000);
         wakeLock.release();
 
+        if (getFragmentManager().findFragmentById(R.id.fragment_container) != null) {
+            getFragmentManager().popBackStack();
+        } //to do add fragment
         bindButton();
+        getDataShared();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+        Network_diag_fragment = new ModuleNetworkDiagFragment(this);
+        fragmentTransaction.add(R.id.fragment_container, Network_diag_fragment);
+        try {
+            fragmentTransaction.commit();
+        } catch (IllegalStateException e) {
+            fragmentTransaction.commitAllowingStateLoss();
+            //SiteData.writeFile(ConnectActivity.this, TAG + " | " + TAG_MODIFIED.tagMethod("protected", "void", "onResume") + " - " + e.getMessage());
+        }
     }
 
     void finishConnectNetwork(){
@@ -166,19 +182,7 @@ public class ConnectActivity extends Activity {
         super.onResume();
         Log.d(TAG, TAG_MODIFIED.tagMethod("protected", "void", "onResume"));
         SiteData.writeFile(this, TAG + " | " + TAG_MODIFIED.tagMethod("protected", "void", "onResume"));
-        getDataShared();
 
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-
-        Network_diag_fragment = new ModuleNetworkDiagFragment(this);
-        fragmentTransaction.add(R.id.fragment_container, Network_diag_fragment);
-        try {
-            fragmentTransaction.commit();
-        } catch (IllegalStateException e) {
-            fragmentTransaction.commitAllowingStateLoss();
-            SiteData.writeFile(ConnectActivity.this, TAG + " | " + TAG_MODIFIED.tagMethod("protected", "void", "onResume") + " - " + e.getMessage());
-        }
     }
 
     @Override
